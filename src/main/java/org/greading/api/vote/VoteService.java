@@ -1,34 +1,42 @@
 package org.greading.api.vote;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
-import org.greading.api.vote.model.Selection;
-import org.greading.api.vote.model.Vote;
+import java.util.List;
+import java.util.Optional;
+import javax.transaction.Transactional;
+import org.greading.api.selection.Selection;
+import org.greading.api.selection.SelectionRepository;
+import org.springframework.stereotype.Service;
 
+@Service
 public class VoteService {
 
-    private Map<Long, Vote> votes = new HashMap<>();
+    private final VoteRepository voteRepository;
 
-    public long createVote(String title, Map<Long, Selection> selections) {
-        Vote vote = new Vote(generateId(), title, selections);
-        return this.saveVote(vote);
+    private final SelectionRepository selectionRepository;
+
+    public VoteService(VoteRepository voteRepository, SelectionRepository selectionRepository) {
+        this.voteRepository = voteRepository;
+        this.selectionRepository = selectionRepository;
     }
 
-    public long saveVote(Vote vote) {
-        votes.put(vote.getId(), vote);
-        return vote.getId();
+    @Transactional
+    public Vote createVote(String title, List<Selection> selections) {
+        List<Selection> savedSelections = selectionRepository.saveAll(selections);
+        return voteRepository.save(new Vote(title, savedSelections));
     }
 
-    public void vote(long voteId, long selectionId, long userId) {
-        votes.get(voteId).getSelection(selectionId).select(userId);
+    @Transactional
+    public Vote vote(long voteId, long selectionId, long userId) {
+        Vote vote = voteRepository.findById(voteId)
+                .orElseThrow();
+
+        vote.getSelection(selectionId)
+                .orElseThrow()
+                .select(userId);
+        return vote;
     }
 
-    public Vote getVote(long voteId) {
-        return votes.get(voteId);
-    }
-
-    private long generateId() {
-        return UUID.randomUUID().getMostSignificantBits() & Long.MAX_VALUE;
+    public Optional<Vote> getVote(long voteId) {
+        return voteRepository.findById(voteId);
     }
 }

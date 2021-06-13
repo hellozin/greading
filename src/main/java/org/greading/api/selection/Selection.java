@@ -1,26 +1,30 @@
-package org.greading.api.vote.model;
+package org.greading.api.selection;
 
 import java.util.HashSet;
 import java.util.Set;
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 
+@Entity
 public class Selection {
 
+    @Id
+    @GeneratedValue
     private long id;
 
     private String text;
 
+    @ElementCollection
     private Set<Long> selectUserIds;
 
-    public Selection(long id, String text) {
-        this.id = id;
-        this.text = text;
-        this.selectUserIds = new HashSet<>();
+    protected Selection() {
     }
 
-    public Selection(long id, String text, Set<Long> selectUserIds) {
-        this.id = id;
+    public Selection(String text) {
         this.text = text;
-        this.selectUserIds = selectUserIds;
+        this.selectUserIds = new HashSet<>();
     }
 
     public void select(long userId) {

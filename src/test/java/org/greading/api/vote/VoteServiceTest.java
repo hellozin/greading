@@ -1,39 +1,49 @@
 package org.greading.api.vote;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
-import org.greading.api.vote.model.Selection;
-import org.greading.api.vote.model.Vote;
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+import javax.transaction.Transactional;
+import org.greading.api.selection.Selection;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+
+@SpringBootTest
+@Transactional
 class VoteServiceTest {
+
+    @Autowired
+    private VoteService voteService;
 
     @Test
     void test() {
-        VoteService voteService = new VoteService();
+        List<Selection> selections = new ArrayList<>();
 
-        Map<Long, Selection> selections = new HashMap<>();
-        long id = generateId();
-        selections.put(id, new Selection(id, "first selection"));
-        id = generateId();
-        selections.put(id, new Selection(id, "second selection"));
-        id = generateId();
-        selections.put(id, new Selection(id, "third selection"));
+        selections.add(new Selection("first selection"));
+        selections.add(new Selection("second selection"));
+        selections.add(new Selection("third selection"));
 
-        long voteId = voteService.createVote("first vote", selections);
-        Vote vote = voteService.getVote(voteId);
+        Vote vote = voteService.createVote("first vote", selections);
 
-        long lastSelectionId = selections.get(id).getId();
+        List<Selection> all = vote.getSelections();
+        long lastSelectionId = all.get(all.size() - 1).getId();
+        long userId = generateMockId();
 
-        long userId = generateId();
-        voteService.vote(vote.getId(), lastSelectionId, userId);
-        voteService.vote(vote.getId(), lastSelectionId, generateId());
+        vote = voteService.vote(vote.getId(), lastSelectionId, userId);
+        int lastSelectionCount = vote.getSelection(lastSelectionId).orElseThrow().getSelectUserIds().size();
+        assertEquals(1, lastSelectionCount);
+
+        vote = voteService.vote(vote.getId(), lastSelectionId, generateMockId());
+        lastSelectionCount = vote.getSelection(lastSelectionId).orElseThrow().getSelectUserIds().size();
+        assertEquals(2, lastSelectionCount);
 
         vote.printPretty();
     }
 
-    private long generateId() {
+    private long generateMockId() {
         return UUID.randomUUID().getMostSignificantBits() & Long.MAX_VALUE;
     }
 
