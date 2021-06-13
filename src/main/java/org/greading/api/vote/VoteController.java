@@ -32,7 +32,7 @@ public class VoteController {
         return "vote";
     }
 
-    @PostMapping("/select")
+    @PostMapping("/selection")
     public String vote(@RequestParam long voteId, @RequestParam long selectionId) {
         voteService.vote(voteId, selectionId, DevelopUtils.generateMockId());
         return "redirect:/vote/" + voteId;
