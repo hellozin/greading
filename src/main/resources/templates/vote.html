@@ -7,7 +7,7 @@
 </head>
 <body>
 <div th:text="${vote.getTitle()}"></div>
-<form th:action="@{/selecttion}" th:method="post">
+<form th:action="@{/selection}" th:method="post">
   <p>Vote Id: <input th:name="voteId" th:value="${vote.getId()}" type="number"></p>
   <p>Selection Id: <input th:name="selectionId" type="number"></p>
   <p><input type="submit" value="투표"></p>
