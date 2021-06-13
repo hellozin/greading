@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Vote</title>
+</head>
+<body>
+<div th:text="${vote.getTitle()}"></div>
+<form th:action="@{/select}" th:method="post">
+  <p>Vote Id: <input th:name="voteId" th:value="${vote.getId()}" type="number"></p>
+  <p>Selection Id: <input th:name="selectionId" type="number"></p>
+  <p><input type="submit" value="투표"></p>
+</form>
+<table>
+  <thead>
+  <th>Id</th>
+  <th>Text</th>
+  <th>Select Ids</th>
+  </thead>
+  <tbody>
+  <tr th:each="selection : ${vote.getSelections()}">
+    <td th:text="${selection.getId()}"></td>
+    <td th:text="${selection.getText()}"></td>
+    <td th:text="${selection.getSelectUserIds().size()}"></td>
+  </tr>
+  </tbody>
+</table>
+</body>
+</html>

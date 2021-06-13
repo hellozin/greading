@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Vote List</title>
+</head>
+<body>
+<table>
+  <thead>
+  <th>ID</th>
+  <th>Title</th>
+  <th>Top Selected</th>
+  </thead>
+  <tbody>
+  <tr th:each="vote : ${voteList}">
+    <td th:text="${vote.getId()}"></td>
+    <td th:text="${vote.getTitle()}"></td>
+    <td th:text="${vote.getTopSelection().getText()}"></td>
+  </tr>
+  </tbody>
+</table>
+</body>
+</html>

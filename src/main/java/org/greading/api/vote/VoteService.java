@@ -36,6 +36,10 @@ public class VoteService {
         return vote;
     }
 
+    public List<Vote> getAllVote() {
+        return voteRepository.findAll();
+    }
+
     public Optional<Vote> getVote(long voteId) {
         return voteRepository.findById(voteId);
     }
