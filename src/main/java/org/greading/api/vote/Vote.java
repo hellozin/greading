@@ -57,13 +57,6 @@ public class Vote {
         return selections;
     }
 
-    public void printPretty() {
-        System.out.println("title: " + this.title);
-        for (Selection selection : selections) {
-            System.out.println(selection.getText() + " : " + selection.getSelectUserIds().size());
-        }
-    }
-
     @Override
     public String toString() {
         return "Vote{" +

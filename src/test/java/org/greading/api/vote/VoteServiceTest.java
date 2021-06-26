@@ -39,7 +39,7 @@ class VoteServiceTest {
         lastSelectionCount = vote.getSelection(lastSelectionId).orElseThrow().getSelectUserIds().size();
         assertEquals(2, lastSelectionCount);
 
-        vote.printPretty();
+        DevelopUtils.printPretty(vote);
     }
 
 }
