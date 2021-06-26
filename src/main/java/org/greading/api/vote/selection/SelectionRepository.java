@@ -1,4 +1,4 @@
-package org.greading.api.selection;
+package org.greading.api.vote.selection;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

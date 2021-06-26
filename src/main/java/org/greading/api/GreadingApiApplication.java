@@ -2,10 +2,10 @@ package org.greading.api;
 
 import java.util.ArrayList;
 import java.util.List;
-import org.greading.api.selection.Selection;
 import org.greading.api.util.DevelopUtils;
 import org.greading.api.vote.Vote;
 import org.greading.api.vote.VoteService;
+import org.greading.api.vote.selection.Selection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -28,7 +28,7 @@ class Runner implements CommandLineRunner {
     private VoteService voteService;
 
     @Override
-    public void run(String... args) throws Exception {
+    public void run(String... args) {
         List<Selection> selections = new ArrayList<>();
 
         selections.add(new Selection("first selection"));

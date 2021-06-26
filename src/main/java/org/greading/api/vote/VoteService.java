@@ -3,8 +3,8 @@ package org.greading.api.vote;
 import java.util.List;
 import java.util.Optional;
 import javax.transaction.Transactional;
-import org.greading.api.selection.Selection;
-import org.greading.api.selection.SelectionRepository;
+import org.greading.api.vote.selection.Selection;
+import org.greading.api.vote.selection.SelectionRepository;
 import org.springframework.stereotype.Service;
 
 @Service

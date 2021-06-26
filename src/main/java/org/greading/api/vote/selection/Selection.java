@@ -1,4 +1,4 @@
-package org.greading.api.selection;
+package org.greading.api.vote.selection;
 
 import java.util.HashSet;
 import java.util.Set;

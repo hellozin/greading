@@ -7,7 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-import org.greading.api.selection.Selection;
+import org.greading.api.vote.selection.Selection;
 
 @Entity
 public class Vote {
