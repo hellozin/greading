@@ -5,6 +5,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.util.ArrayList;
 import java.util.List;
 import javax.transaction.Transactional;
+import org.greading.api.member.Member;
+import org.greading.api.member.MemberService;
+import org.greading.api.request.JoinRequest;
 import org.greading.api.util.DevelopUtils;
 import org.greading.api.vote.selection.Selection;
 import org.junit.jupiter.api.Test;
@@ -14,6 +17,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest
 @Transactional
 class VoteServiceTest {
+
+    @Autowired
+    private MemberService memberService;
 
     @Autowired
     private VoteService voteService;
@@ -31,11 +37,19 @@ class VoteServiceTest {
         List<Selection> all = vote.getSelections();
         long lastSelectionId = all.get(all.size() - 1).getId();
 
-        vote = voteService.vote(vote.getId(), lastSelectionId, DevelopUtils.generateMockId());
+        final int mockUserCount = 2;
+        Member[] mockUsers = new Member[mockUserCount];
+        for (int i = 0; i < mockUserCount; i++) {
+            JoinRequest joinRequest = new JoinRequest(
+                    "id" + i, "pw" + i, "mail" + i, "none");
+            mockUsers[i] = memberService.signUp(joinRequest);
+        }
+
+        vote = voteService.vote(vote.getId(), lastSelectionId, mockUsers[0].getId());
         int lastSelectionCount = vote.getSelection(lastSelectionId).orElseThrow().getSelectUserIds().size();
         assertEquals(1, lastSelectionCount);
 
-        vote = voteService.vote(vote.getId(), lastSelectionId, DevelopUtils.generateMockId());
+        vote = voteService.vote(vote.getId(), lastSelectionId, mockUsers[1].getId());
         lastSelectionCount = vote.getSelection(lastSelectionId).orElseThrow().getSelectUserIds().size();
         assertEquals(2, lastSelectionCount);
 

@@ -1,0 +1,24 @@
+{
+  "properties": [
+    {
+      "name": "jwt.token.header",
+      "type": "java.lang.String",
+      "description": "Description for jwt.token.header."
+    },
+    {
+      "name": "jwt.token.issuer",
+      "type": "java.lang.String",
+      "description": "Description for jwt.token.issuer."
+    },
+    {
+      "name": "jwt.token.clientSecret",
+      "type": "java.lang.String",
+      "description": "Description for jwt.token.clientSecret."
+    },
+    {
+      "name": "jwt.token.expirySeconds",
+      "type": "java.lang.Integer",
+      "description": "Description for jwt.token.expirySeconds."
+    }
+  ]
+}
