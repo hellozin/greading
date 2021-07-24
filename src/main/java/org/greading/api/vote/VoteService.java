@@ -5,10 +5,14 @@ import java.util.Optional;
 import javax.transaction.Transactional;
 import org.greading.api.vote.selection.Selection;
 import org.greading.api.vote.selection.SelectionRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 @Service
 public class VoteService {
+
+    private Logger logger = LoggerFactory.getLogger(VoteService.class);
 
     private final VoteRepository voteRepository;
 
@@ -22,7 +26,11 @@ public class VoteService {
     @Transactional
     public Vote createVote(String title, List<Selection> selections) {
         List<Selection> savedSelections = selectionRepository.saveAll(selections);
-        return voteRepository.save(new Vote(title, savedSelections));
+        Vote savedVote = voteRepository.save(new Vote(title, savedSelections));
+
+        logger.debug("Vote created. id : {}", savedVote.getId());
+
+        return savedVote;
     }
 
     @Transactional
@@ -33,6 +41,9 @@ public class VoteService {
         vote.getSelection(selectionId)
                 .orElseThrow()
                 .select(userId);
+
+        logger.debug("User(id: {}) voted. vote id : {}, selection id {}", userId, voteId, selectionId);
+
         return vote;
     }
 

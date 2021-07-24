@@ -26,7 +26,6 @@ public class MockDataInitializer implements CommandLineRunner {
         selections.add(new Selection("third selection"));
 
         Vote vote = voteService.createVote("first vote", selections);
-        System.out.println("vote id : " + vote.getId());
 
         List<Selection> all = vote.getSelections();
         long lastSelectionId = all.get(all.size() - 1).getId();
