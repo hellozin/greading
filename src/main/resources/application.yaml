@@ -4,6 +4,7 @@ spring:
     username: sa
     driver-class-name: org.h2.Driver
   jpa:
+    database: h2
     generate-ddl: true
     hibernate:
       ddl-auto: create
@@ -14,3 +15,9 @@ spring:
 logging:
   level:
     org.greading.api: debug
+jwt:
+  token:
+    header: api_key
+    issuer: greading
+    clientSecret: CLIENT_SECRET
+    expirySeconds: 3600
